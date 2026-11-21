@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0e0f11">
+  <meta name="description"
+    content="Fireguard: protótipo experimental de monitoramento e alerta de situações de risco em cozinhas. Documentação do projeto da EXPOTEC.">
+  <title>Fireguard — Documentação do projeto</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+
+  <!-- ================= CABEÇALHO / NAVEGAÇÃO ================= -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#inicio" data-nav aria-label="Fireguard — página inicial">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M16 4c3 5 8 8 8 15a8 8 0 0 1-16 0c0-3 1.500-5.500 4-8 .5 2 1.500 3 3 3 0-3 1-6 1-10z"
+            fill="currentColor" />
+        </svg>
+        <span>FIREGUARD</span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu">
+        <span class="menu-icon" aria-hidden="true"></span>
+        <span class="sr-only">Abrir menu</span>
+      </button>
+
+      <nav id="menu" class="menu" aria-label="Seções da documentação">
+        <ul>
+          <li><a href="#inicio" data-nav>Início</a></li>
+          <li><a href="#sobre" data-nav>Sobre</a></li>
+          <li><a href="#componentes" data-nav>Componentes</a></li>
+          <li><a href="#funcionamento" data-nav>Funcionamento</a></li>
+          <li><a href="#arquitetura" data-nav>Arquitetura</a></li>
+          <li><a href="#desenvolvimento" data-nav>Desenvolvimento</a></li>
+          <li><a href="#testes" data-nav>Testes</a></li>
+          <li><a href="#equipe" data-nav>Equipe</a></li>
+          <li><a href="#referencias" data-nav>Referências</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo" tabindex="-1">
+
+    <!-- ================= INÍCIO ================= -->
+    <section id="inicio" class="page hero" aria-labelledby="t-inicio">
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <p class="eyebrow">Protótipo experimental · EXPOTEC</p>
+          <h1 id="t-inicio" class="hero-title">FIRE<span>GUARD</span></h1>
+          <p class="lead">
+            Monitoramento e alerta de possíveis situações de risco em cozinhas.</p>
+          <p>
+            O Fireguard combina um sensor de chama e um sensor de gás com alertas sonoros e visuais (buzzer, LEDs e
+            display LCD) para avisar quando algo foge do normal ao redor do fogão e do botijão.
+          </p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#sobre" data-nav>Explorar a documentação</a>
+            <a class="btn btn-ghost" href="#funcionamento" data-nav>Ver como funciona</a>
+          </div>
+        </div>
+
+        <!-- Elemento visual: radar de monitoramento (SVG simples) -->
+        <div class="hero-visual" aria-hidden="true">
+          <svg viewBox="0 0 320 320">
+            <circle class="ring" cx="160" cy="160" r="140" />
+            <circle class="ring" cx="160" cy="160" r="100" />
+            <circle class="ring" cx="160" cy="160" r="60" />
+            <path class="axis" d="M160 20v280M20 160h280" />
+            <path class="sweep" d="M160 160 L160 20 A140 140 0 0 1 259 61 Z" />
+            <circle class="dot" cx="215" cy="105" r="5" />
+            <circle class="dot dim" cx="105" cy="205" r="4" />
+            <path class="flame" transform="translate(142 140) scale(1.100)"
+              d="M16 4c3 5 8 8 8 15a8 8 0 0 1-16 0c0-3 1.500-5.500 4-8 .5 2 1.500 3 3 3 0-3 1-6 1-10z" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="container">
+        <p class="notice">
+          <strong>Aviso:</strong> o Fireguard é um sistema experimental de monitoramento e alerta. Ele não combate
+          incêndios e não substitui equipamentos de segurança certificados.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= SOBRE ================= -->
+    <section id="sobre" class="page" aria-labelledby="t-sobre" hidden>
+      <div class="container">
+        <header class="page-head">
+          <p class="eyebrow">01 · Sobre o projeto</p>
+          <h2 id="t-sobre" tabindex="-1">Sobre o projeto</h2>
+        </header>
+
+        <div class="grid grid-2">
+          <article class="card">
+            <h3>O que é o Fireguard?</h3>
+            <p>
+              Um protótipo que monitora uma cozinha com sensores e emite alertas sonoros e visuais (buzzer, LEDs e
+              mensagens no display LCD) quando detecta condições que podem indicar risco, como a presença de chama ou
+              de gás.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Qual problema procura solucionar?</h3>
+            <p>
+              Acidentes domésticos com fogo e vazamento de gás costumam começar de forma silenciosa e podem passar
+              despercebidos. Um caso ocorrido em setembro de 2026, em Apodi (RN), mostrou como um vazamento de gás
+              durante o preparo de uma refeição pode provocar um incêndio em uma residência, colocando uma família em
+              risco. Esse episódio reforça a importância de sistemas de detecção e alerta para prevenir acidentes
+              domésticos.
+              (BERNARDO, 2026).
+            </p>
+          </article>
+          <article class="card">
+            <h3>Qual é sua proposta?</h3>
+            <p>Oferecer um aviso rápido e simples de entender, usando componentes acessíveis, para chamar a atenção das
+              pessoas no ambiente antes que a situação avance.</p>
+          </article>
+          <article class="card">
+            <h3>Quais são seus objetivos?</h3>
+            <ul class="list">
+              <li>Detectar chama próxima ao fogão.</li>
+              <li>Detectar gás na região do botijão.</li>
+              <li>Emitir alerta sonoro imediato.</li>
+              <li>Demonstrar o conceito como protótipo educacional.</li>
+              <li>Indicar visualmente os níveis de risco por meio de LEDs e mensagens no display LCD.</li>
+            </ul>
+          </article>
+        </div>
+
+        <p class="notice"><strong>Importante:</strong> este é um protótipo experimental, desenvolvido para fins
+          educacionais e de demonstração.</p>
+        <div class="pager" data-pager></div>
+      </div>
+    </section>
+
+    <!-- ================= COMPONENTES ================= -->
+    <section id="componentes" class="page" aria-labelledby="t-componentes" hidden>
+      <div class="container">
+        <header class="page-head">
+          <p class="eyebrow">02 · Componentes</p>
+          <h2 id="t-componentes" tabindex="-1">Componentes</h2>
+          <p class="muted">Os elementos físicos que formam o protótipo.</p>
+        </header>
+
+        <div class="grid grid-2 component-list">
+          <article class="card component">
+            <figure class="component-figure">
+              <img src="image/foto_sensor_chamas_infravermelho.jpg" alt="Sensor de chama infravermelho" loading="lazy">
+              <figcaption>
+                Sensor de chama infravermelho
+                <span class="image-source">Módulo KY-026 (s.d.).</span>
+              </figcaption>
+
+            </figure>
+
+            <div>
+              <h3>Sensor de chama</h3>
+              <p>Módulo que reage à luz infravermelha emitida por chamas.</p>
+
+              <p class="role">
+                <strong>Modelo:</strong> Sensor de chama infravermelho.
+              </p>
+
+              <p class="role">
+                <strong>Função:</strong> Identifica a presença de chamas por meio da luz infravermelha.
+              </p>
+            </div>
+          </article>
+          <article class="card component">
+            <figure class="component-figure">
+              <img src="image/foto_mq2.jpg" alt="Sensor de gás MQ2" loading="lazy">
+              <figcaption>
+                Sensor de gás MQ2
+                <span class="image-source">Módulo MQ2 (s.d.).</span>
+              </figcaption>
+            </figure>
+
+            <div>
+              <h3>Sensor de gás</h3>
+              <p>Módulo que mede a presença de gases combustíveis no ar.</p>
+
+              <p class="role">
+                <strong>Modelo:</strong> Sensor de gás MQ2.
+              </p>
+
+              <p class="role">
+                <strong>Função:</strong> Instalado na região do botijão, detecta a presença de gases combustíveis no
+                ambiente, auxiliando na identificação de possíveis vazamentos.
+              </p>
+            </div>
+          </article>
+          <article class="card component">
+            <figure class="component-figure">
+              <img src="image/foto_buzzer.jpg" alt="Buzzer" loading="lazy">
+              <figcaption>
+                Buzzer
+                <span class="image-source">Módulo Buzzer (s.d.).</span>
+              </figcaption>
+            </figure>
+
+            <div>
+              <h3>Buzzer</h3>
+              <p>Módulo que emite um sinal sonoro para indicar uma condição de risco.</p>
+
+              <p class="role">
+                <strong>Modelo:</strong> Buzzer.
+              </p>
+
+              <p class="role">
+                <strong>Função:</strong> Emitir um alerta sonoro quando uma condição de risco for detectada.
+              </p>
+            </div>
+          </article>
+          <article class="card component">
+            <figure class="component-figure">
+              <img src="image/foto_arduino_mega_2560.jpg" alt="Arduino Mega 2560" loading="lazy">
+              <figcaption>
+                Arduino Mega 2560
+                <span class="image-source">Módulo Arduino Mega 2560 (s.d.).</span>
+              </figcaption>
+            </figure>
+
+            <div>
+              <h3>Arduino Mega 2560</h3>
+              <p>Módulo de controle que processa as informações dos sensores e aciona os atuadores.</p>
+
+              <p class="role">
+                <strong>Modelo:</strong> Arduino Mega 2560.
+              </p>
+
+              <p class="role">
+                <strong>Função:</strong> Processar as leituras dos sensores e controlar a resposta do sistema em caso de
+                risco.
+              </p>
+            </div>
+          </article>
+          <article class="card component">
+            <figure class="component-figure">
+              <img src="image/foto_lcd.jpg" alt="Display LCD" loading="lazy">
+              <figcaption>
+                Display LCD
+                <span class="image-source">Módulo Display LCD (s.d.).</span>
+              </figcaption>
+            </figure>
+
+            <div>
+              <h3>Display LCD</h3>
+              <p>Módulo que exibe informações sobre o status do sistema e os dados dos sensores.</p>
+
+              <p class="role">
+                <strong>Modelo:</strong> Display LCD.
+              </p>
+
+              <p class="role">
+                <strong>Função:</strong> Exibir informações sobre o status do sistema e os dados dos sensores, com
+                mensagens como "Sistema OK" ou o tipo de alerta detectado. A comunicação com o Arduino é feita por I2C.
+              </p>
+            </div>
+          </article>
+          <article class="card component">
+            <figure class="component-figure">
+              <img src="image/foto_led.jpg" alt="LED" loading="lazy">
+              <figcaption>
+                LED
+                <span class="image-source">Módulo LED (s.d.).</span>
+              </figcaption>
+            </figure>
+
+            <div>
+              <h3>LED</h3>
+              <p>Módulo que indica o status do sistema através de uma luz.</p>
+
+              <p class="role">
+                <strong>Modelo:</strong> LED.
+              </p>
+
+              <p class="role">
+                <strong>Função:</strong> Indicar o status do sistema através de uma luz: o LED verde indica
+                monitoramento normal e o LED vermelho indica condição de risco.
+              </p>
+            </div>
+          </article>
+          <article class="card component">
+            <figure class="component-figure">
+              <img src="image/foto_servo.jpg" alt="Servo Motor" loading="lazy">
+              <figcaption>
+                Servo Motor
+                <span class="image-source">Módulo Servo Motor (s.d.).</span>
+              </figcaption>
+            </figure>
+
+            <div>
+              <h3>Servo Motor</h3>
+              <p>Módulo que controla a posição de um mecanismo com base em sinais elétricos.</p>
+
+              <p class="role">
+                <strong>Modelo:</strong> Servo Motor.
+              </p>
+
+              <p class="role">
+                <strong>Função:</strong> Controlar a posição de um mecanismo com base em sinais elétricos. Controla a
+                posição do sensor de chamas.
+              </p>
+            </div>
+          </article>
+          <article class="card component">
+            <figure class="component-figure">
+              <img src="image/foto_mini_breadboard.jpg" alt="Mini Breadboard" loading="lazy">
+              <figcaption>
+                Mini Breadboard
+                <span class="image-source">Módulo Mini Breadboard (s.d.).</span>
+              </figcaption>
+            </figure>
+
+            <div>
+              <h3>Mini Breadboard</h3>
+              <p>Módulo que serve como base para a montagem dos componentes eletrônicos.</p>
+
+              <p class="role">
+                <strong>Modelo:</strong> Mini Breadboard.
+              </p>
+
+              <p class="role">
+                <strong>Função:</strong> Servir como base para a montagem dos componentes eletrônicos.
+              </p>
+            </div>
+          </article>
+        </div>
+        <div class="pager" data-pager></div>
+      </div>
+    </section>
+
+    <!-- ================= FUNCIONAMENTO ================= -->
+    <section id="funcionamento" class="page" aria-labelledby="t-funcionamento" hidden>
+      <div class="container">
+        <header class="page-head">
+          <p class="eyebrow">03 · Funcionamento</p>
+          <h2 id="t-funcionamento" tabindex="-1">Como funciona</h2>
+          <p class="muted">Do dado do sensor até o alerta, em quatro etapas.</p>
+        </header>
+
+        <ol class="flow">
+          <li class="flow-step"><span class="flow-num">1</span>
+            <h3>Sensores</h3>
+            <p>Sensor de chama e sensor de gás medem o ambiente continuamente.</p>
+          </li>
+          <li class="flow-step"><span class="flow-num">2</span>
+            <h3>Microcontrolador</h3>
+            <p>Recebe as leituras e executa o programa do sistema.</p>
+          </li>
+          <li class="flow-step"><span class="flow-num">3</span>
+            <h3>Identificação da condição</h3>
+            <p>Compara as leituras com os limites definidos: o sensor de chama indica presença ou ausência de chama, e
+              o valor lido no MQ-2 é comparado a um limite de gás. <span class="fill">[PREENCHER: valor do limite de
+                gás]</span></p>
+          </li>
+          <li class="flow-step is-alert"><span class="flow-num">4</span>
+            <h3>Alerta sonoro e visual</h3>
+            <p>Se há condição de risco, o buzzer é acionado, o LED vermelho acende e o display LCD mostra o tipo de
+              alerta.</p>
+          </li>
+        </ol>
+
+        <h3 class="sub">Condições monitoradas</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Condição</th>
+                <th scope="col">Sensor</th>
+                <th scope="col">Resposta do sistema</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Chama detectada</td>
+                <td>Sensor de chama</td>
+                <td>Buzzer com bipes intermitentes, LED vermelho aceso e LCD com a mensagem de alerta de chama.</td>
+              </tr>
+              <tr>
+                <td>Gás detectado</td>
+                <td>Sensor de gás</td>
+                <td>Buzzer com bipes intermitentes, LED vermelho aceso e LCD com a mensagem de alerta de gás.</td>
+              </tr>
+              <tr>
+                <td>Chama e gás ao mesmo tempo</td>
+                <td>Ambos</td>
+                <td>Nível máximo de alerta: buzzer contínuo, LED vermelho aceso e LCD com a mensagem de perigo.</td>
+              </tr>
+              <tr>
+                <td>Nenhuma condição</td>
+                <td>Ambos</td>
+                <td>Buzzer desligado, LED verde aceso, LCD com "Sistema OK" e monitoramento contínuo.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pager" data-pager></div>
+      </div>
+    </section>
+
+    <!-- ================= ARQUITETURA ================= -->
+    <section id="arquitetura" class="page" aria-labelledby="t-arquitetura" hidden>
+      <div class="container">
+        <header class="page-head">
+          <p class="eyebrow">04 · Arquitetura</p>
+          <h2 id="t-arquitetura" tabindex="-1">Arquitetura do sistema</h2>
+          <p class="muted">Como os componentes se organizam e se conectam.</p>
+        </header>
+
+        <figure class="diagram">
+          <svg viewBox="0 0 640 360" role="img" aria-labelledby="arq-t arq-d">
+            <title id="arq-t">Diagrama de blocos do Fireguard</title>
+            <desc id="arq-d">Sensor de chama e sensor de gás enviam sinais ao microcontrolador, que aciona o buzzer, os
+              LEDs, o display LCD e o servo motor. Uma
+              fonte de alimentação energiza o microcontrolador.</desc>
+            <defs>
+              <marker id="seta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
+                orient="auto-start-reverse">
+                <path d="M0 0L10 5L0 10z" class="d-arrow" />
+              </marker>
+            </defs>
+
+            <rect class="d-box" x="20" y="60" width="170" height="70" rx="10" />
+            <text class="d-text" x="105" y="90" text-anchor="middle">Sensor de chama</text>
+            <text class="d-sub" x="105" y="112" text-anchor="middle">Entrada</text>
+
+            <rect class="d-box" x="20" y="230" width="170" height="70" rx="10" />
+            <text class="d-text" x="105" y="260" text-anchor="middle">Sensor de gás</text>
+            <text class="d-sub" x="105" y="282" text-anchor="middle">Entrada</text>
+
+            <rect class="d-box d-main" x="250" y="125" width="150" height="110" rx="10" />
+            <text class="d-text" x="325" y="173" text-anchor="middle">Microcontrolador</text>
+            <text class="d-sub" x="325" y="196" text-anchor="middle">Processamento</text>
+
+            <rect class="d-box d-alert" x="470" y="15" width="150" height="58" rx="10" />
+            <text class="d-text" x="545" y="40" text-anchor="middle">Buzzer</text>
+            <text class="d-sub" x="545" y="60" text-anchor="middle">Saída sonora</text>
+
+            <rect class="d-box d-alert" x="470" y="95" width="150" height="58" rx="10" />
+            <text class="d-text" x="545" y="120" text-anchor="middle">LEDs</text>
+            <text class="d-sub" x="545" y="140" text-anchor="middle">Saída visual</text>
+
+            <rect class="d-box d-alert" x="470" y="175" width="150" height="58" rx="10" />
+            <text class="d-text" x="545" y="200" text-anchor="middle">Display LCD</text>
+            <text class="d-sub" x="545" y="220" text-anchor="middle">Saída visual</text>
+
+            <rect class="d-box d-alert" x="470" y="255" width="150" height="58" rx="10" />
+            <text class="d-text" x="545" y="280" text-anchor="middle">Servo motor</text>
+            <text class="d-sub" x="545" y="300" text-anchor="middle">Saída mecânica</text>
+
+            <rect class="d-box" x="250" y="290" width="150" height="50" rx="10" />
+            <text class="d-text" x="325" y="320" text-anchor="middle">Alimentação</text>
+
+            <path class="d-line" d="M190 95 H220 V155 H250" marker-end="url(#seta)" />
+            <path class="d-line" d="M190 265 H220 V205 H250" marker-end="url(#seta)" />
+            <path class="d-line" d="M400 150 H435 V44 H470" marker-end="url(#seta)" />
+            <path class="d-line" d="M400 165 H435 V124 H470" marker-end="url(#seta)" />
+            <path class="d-line" d="M400 195 H435 V204 H470" marker-end="url(#seta)" />
+            <path class="d-line" d="M400 210 H435 V284 H470" marker-end="url(#seta)" />
+            <path class="d-line d-dash" d="M325 290 V235" marker-end="url(#seta)" />
+          </svg>
+          <figcaption>Fluxo de sinais: sensores → microcontrolador → buzzer, LEDs, display LCD e servo motor. A linha
+            tracejada indica alimentação.
+          </figcaption>
+        </figure>
+
+        <h3 class="sub">Tabela de conexões</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Componente</th>
+                <th scope="col">Pino do componente</th>
+                <th scope="col">Pino do microcontrolador</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Sensor de chama</td>
+                <td>Saída Analógica (A0)</td>
+                <td>A)</td>
+              </tr>
+              <tr>
+                <td>Sensor de gás (MQ-2)</td>
+                <td>Saída analógica </td>
+                <td>A1</span></td>
+              </tr>
+              <tr>
+                <td>Buzzer</td>
+                <td>Positivo</td>
+                <td>6</td>
+              </tr>
+              <tr>
+                <td>LED azul</td>
+                <td>Ânodo (com resistor em série)</td>
+                <td>7</td>
+              </tr>
+              <tr>
+                <td>LED vermelho</td>
+                <td>Ânodo (com resistor em série)</td>
+                <td>8</td>
+              </tr>
+              <tr>
+                <td>Display LCD (I2C)</td>
+                <td>SDA</td>
+                <td>20 (SDA)</td>
+              </tr>
+              <tr>
+                <td>Display LCD (I2C)</td>
+                <td>SCL</td>
+                <td>21 (SCL)</td>
+              </tr>
+              <tr>
+                <td>Servo motor</td>
+                <td>Sinal</td>
+                <td>9</td>
+              </tr>
+              <tr>
+                <td>Todos</td>
+                <td>VCC / GND</td>
+                <td>5V / GND do Arduino Mega, distribuídos pela mini breadboard</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="sub">Posicionamento na cozinha</h3>
+        <ul class="list">
+          <li>Sensor de chama: próximo ao fogão, com visão para a área das bocas.</li>
+          <li>Sensor de gás: na região do botijão.</li>
+          <li>Display LCD e LEDs: em local visível para quem está na cozinha (case).</li>
+          <li>O microcontrolador fica na case</li>
+        </ul>
+        <div class="pager" data-pager></div>
+      </div>
+    </section>
+
+    <!-- ================= DESENVOLVIMENTO ================= -->
+    <section id="desenvolvimento" class="page" aria-labelledby="t-desenvolvimento" hidden>
+      <div class="container">
+        <header class="page-head">
+          <p class="eyebrow">05 · Desenvolvimento</p>
+          <h2 id="t-desenvolvimento" tabindex="-1">Desenvolvimento</h2>
+          <p class="muted">Da ideia inicial à programação.</p>
+        </header>
+
+        <ol class="timeline">
+          <li>
+            <h3>Ideia inicial</h3>
+            <p>O projeto nasceu da preocupação com acidentes domésticos envolvendo fogo e vazamento de gás na cozinha,
+              como o caso ocorrido em Apodi (RN) em setembro de 2026 (BERNARDO, 2026). A ideia foi criar um protótipo
+              simples, com componentes acessíveis, capaz de avisar as pessoas antes que a situação avance.</p>
+          </li>
+          <li>
+            <h3>Pesquisa e planejamento</h3>
+            <p>Foram estudados o funcionamento dos sensores de chama (KY-026) e de gás (MQ-2) a partir dos datasheets,
+              orientações sobre o uso seguro do gás de botijão (ANP) e recomendações de segurança em ambientes
+              domésticos (Corpo de Bombeiros). Com isso, ficou definido que o sistema monitoraria o fogão e o botijão e
+              emitiria alertas sonoros e visuais.</p>
+          </li>
+          <li>
+            <h3>Escolha dos componentes</h3>
+            <p>Os componentes foram escolhidos por serem acessíveis, fáceis de encontrar e compatíveis com o Arduino:
+              sensor de chama e sensor MQ-2 para a detecção, buzzer, LEDs e display LCD para os alertas, servo motor
+              como atuador e Arduino Mega 2560 como controlador, que oferece folga de pinos para todos os módulos.</p>
+          </li>
+          <li>
+            <h3>Montagem do circuito</h3>
+            <p>O circuito foi planejado e simulado no Cirkit Designer. Em seguida, os componentes foram ligados ao
+              Arduino Mega com o apoio de uma mini breadboard para distribuir alimentação e terra, e cada módulo foi
+              testado individualmente antes da integração.</p>
+          </li>
+          <li>
+            <h3>Programação</h3>
+            <p>O código foi desenvolvido em C++ utilizando a Arduino IDE e as bibliotecas Servo, Wire e
+              LiquidCrystal_I2C. A programação realiza a leitura dos sensores de chama e gás, compara os valores com
+              limites predefinidos e identifica quatro estados: normal, gás, chama ou gás e chama simultaneamente.
+              Conforme o estado identificado, o sistema controla os LEDs, o buzzer, o display LCD e o servo motor. O
+              desenvolvimento contou com o auxílio de ferramentas de inteligência artificial para explicação e revisão
+              do código.</p>
+          </li>
+          <li>
+            <h3>Testes e ajustes</h3>
+            <p>Após a montagem, foram feitos testes com cada sensor e com o conjunto, ajustando a sensibilidade do
+              sensor de chama, o limite de leitura do MQ-2 e os padrões de alerta. Os resultados observados estão na
+              seção de testes.</p>
+          </li>
+        </ol>
+        <div class="pager" data-pager></div>
+      </div>
+    </section>
+
+    <!-- ================= TESTES E RESULTADOS ================= -->
+    <section id="testes" class="page" aria-labelledby="t-testes" hidden>
+      <div class="container">
+        <header class="page-head">
+          <p class="eyebrow">06 · Testes e resultados</p>
+          <h2 id="t-testes" tabindex="-1">Testes e resultados</h2>
+          <p class="muted">Os campos abaixo devem ser preenchidos apenas com dados reais, observados nos testes.</p>
+        </header>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Teste</th>
+                <th scope="col">Como foi feito</th>
+                <th scope="col">Resultado observado</th>
+                <th scope="col">Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Detecção de chama</td>
+                <td>Observação da leitura do sensor durante os testes.</td>
+                <td>O sensor identificou a condição de chama.</td>
+                <td>14/10/2026</td>
+              </tr>
+              <tr>
+                <td>Detecção de gás</td>
+                <td>Observação das leituras do MQ-2.</td>
+                <td>O sensor detectou a presença de gás.</td>
+                <td>14/10/2026</td>
+              </tr>
+              <tr>
+                <td>Acionamento do buzzer</td>
+                <td>Observação do acionamento do buzzer durante os testes.</td>
+                <td>O buzzer foi acionado conforme esperado.</td>
+                <td>14/10/2026</td>
+              </tr>
+              <tr>
+                <td>Tempo de resposta</td>
+                <td>Observação do intervalo entre a identificação da condição e a resposta do sistema.</td>
+                <td>300ms, tempo máximo atingido nos testes.</td>
+                <td>14/10/2026</td>
+              </tr>
+              <tr>
+                <td>Mensagens do display LCD</td>
+                <td>Verificação das mensagens exibidas em cada estado.</td>
+                <td>As mensagens corresponderam aos estados identificados. (na segunda tentativa)</td>
+                <td>14/10/2026</td>
+              </tr>
+              <tr>
+                <td>Indicação por LEDs</td>
+                <td>Verificação dos LEDs durante os diferentes estados</td>
+                <td>Azul no estado normal e vermelho nas condições de alerta.</td>
+                <td>14/10/2026</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid grid-2">
+          <article class="card">
+            <h3>Limitações</h3>
+            <ul class="list">
+              <li>Protótipo experimental, sem certificação de segurança.</li>
+              <li>O sensor de chama infravermelho pode reagir à luz solar e a lâmpadas, podendo gerar alarmes falsos.
+              </li>
+              <li>O MQ-2 precisa de um tempo de aquecimento e responde a vários gases e à fumaça, sem identificar qual é
+                o gás; a leitura é relativa e não calibrada.</li>
+              <li>Não faz medição precisa de concentração de gás e não corta o fornecimento de gás por conta própria.
+              </li>
+              <li>Protótipo experimental, sem alimentação externa (bateria).</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Possíveis melhorias</h3>
+            <ul class="list">
+              <li>Calibrar o MQ-2 com um gás de referência e definir limites mais precisos.</li>
+              <li>Acrescentar um sensor de temperatura para cruzar os dados e reduzir alarmes falsos.</li>
+              <li>Enviar notificações ao celular por Wi-Fi.</li>
+              <li>Incluir um botão para silenciar o alarme.</li>
+              <li>incluir uma bateria para alimentar o protótipo ou uma cabo para alimentação direta da cozinha.</li>
+              <li>Acrescentar um relé para cortar o fornecimento de gás em caso de vazamento.</li>
+              <li>mais sensores de gás ou chamas, para melhor detecção e precisão.</li>
+            </ul>
+          </article>
+        </div>
+        <div class="pager" data-pager></div>
+      </div>
+    </section>
+
+    <!-- ================= EQUIPE ================= -->
+    <section id="equipe" class="page" aria-labelledby="t-equipe" hidden>
+      <div class="container">
+        <header class="page-head">
+          <p class="eyebrow">07 · Equipe</p>
+          <h2 id="t-equipe" tabindex="-1">Equipe</h2>
+          <p class="muted">Quem desenvolveu o Fireguard.</p>
+        </header>
+
+        <!-- Copie um bloco <article> para cada integrante -->
+        <div class="grid grid-3">
+          <article class="card member">
+            <div class="avatar" aria-hidden="true"><img class="avatar"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJ5zxZSiZsJK5pDEFdZFD_r_YLHuGkJsO0Kstyyss2SWPEVelKwrehn_I&s=10"
+                alt=""></div>
+            <h3><span class="fill">Felipe quebra códigos</span></h3>
+            <p class="role"><span class="fill">Programador</span></p>
+          </article>
+          <article class="card member">
+            <div class="avatar" aria-hidden="true"><img class="avatar"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKEpd-SOeN4C9-U-EDgC39pwGkxKCRl2RToSsplMFE0w&s=10"
+                alt=""></div>
+            <h3><span class="fill">Cachorro caramelo</span></h3>
+            <p class="role"><span class="fill">Atrapalha</span></p>
+          </article>
+          <article class="card member">
+            <div class="avatar" aria-hidden="true"><img class="avatar"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-UZabD7v8UOcR1zZED6zlxB82JjGpT3sM9hkhThmVoA&s=10"
+                alt=""></div>
+            <h3><span class="fill">Suco de fruta</span></h3>
+            <p class="role"><span class="fill">Discolado</span></p>
+          </article>
+          <article class="card member">
+            <div class="avatar" aria-hidden="true"><img class="avatar"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRk2yu82_GiHpt4YrXvlD9tOyxH-LulL2ExBYBmgM2oMa3NhXj_Z8YRBeI&s=10"
+                alt=""></div>
+            <h3><span class="fill">Harry Cearense</span></h3>
+            <p class="role"><span class="fill">bruxo</span></p>
+          </article>
+          <article class="card member">
+            <div class="avatar" aria-hidden="true"><img class="avatar"
+                src="https://upload.wikimedia.org/wikipedia/pt/2/27/Seu_Madruga.png?utm_source=pt.wikipedia.org&utm_campaign=index&utm_content=original"
+                alt=""></div>
+            <h3><span class="fill">Madruginha</span></h3>
+            <p class="role"><span class="fill">deve alugeu</span></p>
+          </article>
+          <article class="card member">
+            <div class="avatar" aria-hidden="true"><img class="avatar"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQAiOuVw_snNKkP3N2nF0LupuVCceob6VYm0Sh1QaBJjyDBIR6wn8-SRc&s=10"
+                alt=""></div>
+            <h3><span class="fill">MIA</span></h3>
+            <p class="role"><span class="fill">Ex programadora</span></p>
+          </article>
+        </div>
+
+        <p class="muted"><span class="fill">esolinha do professor Raimundo
+
+            Professor orientador: Raimundo.
+
+            Ano: 2026.</span></p>
+        <div class="pager" data-pager></div>
+      </div>
+    </section>
+    <!-- ================= REFERÊNCIAS ================= -->
+    <section id="referencias" class="page" aria-labelledby="t-referencias" hidden>
+      <div class="container">
+        <header class="page-head">
+          <p class="eyebrow">08 · Referências</p>
+          <h2 id="t-referencias" tabindex="-1">Referências</h2>
+          <p class="muted">Fontes consultadas durante o desenvolvimento do projeto.</p>
+        </header>
+
+        <!-- Copie um bloco <li> para cada fonte (formato sugerido: ABNT) -->
+        <h3 class="sub">Folhas de dados (datasheets) dos componentes</h3>
+        <ul class="refs">
+          <li><strong>JOYE-IT</strong>. KY-026 Flame Sensor Module: SensorKit X40. Disponível em: <a
+              class="link_reference"
+              href="https://ecrobotics.cl/wp-content/uploads/2024/07/4.12-Sensor-de-Flama-KY-026-Datasheet.pdf"
+              target="_blank">https://ecrobotics.cl/wp-content/uploads/2024/07/4.12-Sensor-de-Flama-KY-026-Datasheet.pdf</a>.
+            Acesso em: 21 nov. 2026.</li>
+          <li><strong>WINSEN</strong>. MQ-2 Semiconductor Sensor for Smoke & Flammable Gas. Disponível em: <a
+              class="link_reference" href="https://www.winsen-sensor.com/d/files/manual/mq-2.pdf"
+              target="_blank">https://www.winsen-sensor.com/d/files/manual/mq-2.pdf</a>. Acesso em: 21 nov. 2026.</li>
+          <li><strong>ARDUINO</strong>. Mega 2560 Rev3. Disponível em: <a class="link_reference"
+              href="https://docs.arduino.cc/hardware/mega-2560"
+              target="_blank">https://docs.arduino.cc/hardware/mega-2560</a>. Acesso em: 21 nov. 2026.</li>
+          <li><strong>TOWERPRO</strong>. SG90 Analog Servo. Disponível em: <a class="link_reference"
+              href="https://towerpro.com.tw/product/sg90-analog/"
+              target="_blank">https://towerpro.com.tw/product/sg90-analog/</a>. Acesso em: 21 nov. 2026.</li>
+        </ul>
+
+        <h3 class="sub">Artigos, livros e sites</h3>
+        <ul class="refs">
+          <li>
+            <strong>BERNARDO, Elí</strong>. Vazamento de gás provoca incêndio em casa com criança, idosa e cadeirante no
+            RN.
+            <Strong>BNews RN</Strong>, 29 set. 2026. Disponível em: <a class="link_reference"
+              href="https://www.bnewsrn.com.br/noticias/cidades/vazamento-de-gas-provoca-incendio-em-casa-com-crianca-idosa-e-cadeirante-no-rn.html"
+              target="_blank">https://www.bnewsrn.com.br/noticias/cidades/vazamento-de-gas-provoca-incendio-em-casa-com-crianca-idosa-e-cadeirante-no-rn.html</a>.
+            Acesso em: 21 nov. 2026.
+          </li>
+          <li>
+            <strong>AGÊNCIA NACIONAL DO PETRÓLEO, GÁS NATURAL E BIOCOMBUSTÍVEIS (ANP)</strong>. Gás de Botijão (GLP): 10
+            orientações para garantir seus direitos e sua segurança. 2020. Disponível em: <a class="link_reference"
+              href="https://www.gov.br/anp/pt-br/centrais-de-conteudo/publicacoes/cartilhas-e-guias/gas-de-botijao-glp-10-orientacoes-para-garantir-seus-direitos-e-sua-seguranca"
+              target="_blank">https://www.gov.br/anp/pt-br/centrais-de-conteudo/publicacoes/cartilhas-e-guias/gas-de-botijao-glp-10-orientacoes-para-garantir-seus-direitos-e-sua-seguranca</a>.
+            Acesso em: 21 nov. 2026.
+          </li>
+          <li>
+            <strong>CORPO DE BOMBEIROS MILITAR DA BAHIA</strong>. Ambientes domésticos. 2018. Disponível em: <a
+              class="link_reference" href="https://www.ba.gov.br/bombeiros/ambientes-domesticos"
+              target="_blank">https://www.ba.gov.br/bombeiros/ambientes-domesticos</a>. Acesso em: 21 nov. 2026.
+          </li>
+          <li>
+            <strong>OPENAI</strong>. ChatGPT. Ferramenta de inteligência artificial utilizada como apoio na elaboração,
+            explicação e revisão de códigos de programação do projeto Fireguard. Disponível em: <a
+              class="link_reference" href="https://chatgpt.com/" target="_blank">https://chatgpt.com/</a>. Acesso em: 21
+            nov. 2026.
+          </li>
+        </ul>
+
+        <h3 class="sub">Ferramentas e bibliotecas</h3>
+        <ul class="refs">
+          <li><strong>Arduino IDE</strong>. Disponível em: <a class="link_reference"
+              href="https://www.arduino.cc/en/software" target="_blank">https://www.arduino.cc/en/software</a>. Acesso
+            em: 21 nov. 2026.</li>
+          <li><strong>CIRKIT DESIGNER</strong>. Cirkit Designer: projeto e simulação de circuitos. Disponível em: <a
+              class="link_reference" href="https://www.cirkitdesigner.com/pt-br"
+              target="_blank">https://www.cirkitdesigner.com/pt-br</a>. Acesso em: 21 nov. 2026.</li>
+          <li><strong>ARDUINO</strong>. Servo Library for Arduino. Disponível em: <a class="link_reference"
+              href="https://github.com/arduino-libraries/Servo"
+              target="_blank">https://github.com/arduino-libraries/Servo</a>. Acesso em: 21 nov. 2026.</li>
+          <li><strong>ARDUINO</strong>. Inter-Integrated Circuit (I2C) Protocol – Wire Library. Disponível em: <a
+              class="link_reference" href="https://docs.arduino.cc/learn/communication/wire/"
+              target="_blank">https://docs.arduino.cc/learn/communication/wire/</a>. Acesso em: 21 nov. 2026.</li>
+          <li><strong>FDEBRABANDER, Frank</strong>. Arduino LiquidCrystal I2C Library. Disponível em: <a
+              class="link_reference" href="https://github.com/fdebrabander/Arduino-LiquidCrystal-I2C-library"
+              target="_blank">https://github.com/fdebrabander/Arduino-LiquidCrystal-I2C-library</a>. Acesso em: 21 nov.
+            2026.</li>
+        </ul>
+
+        <h3 class="sub">Imagens e créditos</h3>
+        <ul class="refs">
+          <li><strong>OPENAI</strong>. ChatGPT: ferramenta de inteligência artificial utilizada para geração de imagens.
+            2026. Disponível em: <a class="link_reference" href="https://chatgpt.com/"
+              target="_blank">https://chatgpt.com/</a>. Acesso em: 21 nov. 2026.</li>
+        </ul>
+        <div class="pager" data-pager></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p><strong>Fireguard</strong> · Projeto da EXPOTEC · Protótipo experimental de monitoramento e alerta.</p>
+      <p class="muted">Não é um sistema de combate a incêndios nem substitui equipamentos de segurança certificados.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>
